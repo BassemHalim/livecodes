@@ -121,7 +121,7 @@ import type {
   UserConfig,
   UserData,
 } from './models';
-import { createNotifications } from './notifications';
+import { concreteNotificationsService, noOpNotificationsService } from './notifications';
 import { cleanResultFromDev, createResultPage } from './result';
 import { createAuthService, getAppCDN, sandboxService, shareService } from './services';
 import type { GitHubFile } from './services/github';
@@ -5098,7 +5098,7 @@ const changeAppLanguage = async (appLanguage: AppLanguage) => {
 };
 
 const basicHandlers = () => {
-  notifications = createNotifications();
+  notifications = concreteNotificationsService;
   modal = createModal({
     translate: translateElement,
     isEmbed,
@@ -5738,13 +5738,7 @@ const initHeadless = async (config: Partial<Config>, baseUrl: string) => {
     processors,
   };
   await initializePlayground({ config, baseUrl, isEmbed: true, isHeadless: true }, () => {
-    notifications = {
-      info: () => undefined,
-      success: () => undefined,
-      warning: () => undefined,
-      error: () => undefined,
-      confirm: () => undefined,
-    };
+    notifications = noOpNotificationsService;
     modal = { show: () => undefined, close: () => undefined };
     typeLoader = { load: async () => [] };
     handleConsole();

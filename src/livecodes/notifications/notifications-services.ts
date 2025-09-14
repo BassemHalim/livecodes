@@ -20,7 +20,7 @@ import {
 
 export const hasOpenNotifications = () => document.querySelectorAll('.snackbar').length > 0;
 
-export const createNotifications = (): Notifications => {
+const createConcreteNotifications = (): Notifications => {
   const timeout = 2000;
 
   const getPosition = () =>
@@ -104,4 +104,14 @@ export const createNotifications = (): Notifications => {
     error,
     confirm,
   };
+};
+
+export const concreteNotificationsService = createConcreteNotifications();
+
+export const noOpNotificationsService = {
+  info: () => undefined,
+  success: () => undefined,
+  warning: () => undefined,
+  error: () => undefined,
+  confirm: () => undefined,
 };
